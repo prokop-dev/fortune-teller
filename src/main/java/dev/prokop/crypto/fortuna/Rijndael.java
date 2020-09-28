@@ -3,10 +3,10 @@ package dev.prokop.crypto.fortuna;
 /**
  * Rijndael.java
  *
- * @author Paulo Barreto <paulo.barreto@terra.com.br>
- *         <p/>
+ * @author Paulo Barreto paulo.barreto@terra.com.br
+ *         <p>
  *         This software is hereby placed in the public domain.
- *         <p/>
+ *         <p>
  *         THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS
  *         OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  *         WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -19,7 +19,7 @@ package dev.prokop.crypto.fortuna;
  *         OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  *         EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * @version 1.0 (May 2001)
- *          <p/>
+ *          <p>
  *          Optimised Java implementation of the Rijndael (AES) block cipher.
  */
 public final class Rijndael {
