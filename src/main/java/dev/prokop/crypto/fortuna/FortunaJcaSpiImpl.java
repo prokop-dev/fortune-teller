@@ -6,7 +6,7 @@ public final class FortunaJcaSpiImpl extends SecureRandomSpi {
 
     /**
      * This will post provided seed to the entropy pools.
-     * @param seed
+     * @param seed a byte array that will be used as extra entropy and distributed among entropy pools
      */
     @Override
     protected void engineSetSeed(byte[] seed) {

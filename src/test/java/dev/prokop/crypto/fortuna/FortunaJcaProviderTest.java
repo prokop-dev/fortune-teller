@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.Security;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
