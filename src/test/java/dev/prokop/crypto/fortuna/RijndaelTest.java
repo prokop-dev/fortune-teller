@@ -11,11 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class RijndaelTest {
 
     private final SecureRandom secureRandom = new SecureRandom();
+    private final byte[] key = secureRandom.generateSeed(32);
 
     @Test
     void encrypt() throws Exception {
-        final byte[] key = secureRandom.generateSeed(32);
-
         final Rijndael rijndael = new Rijndael();
         rijndael.makeKey(key, 256, Rijndael.DIR_ENCRYPT);
 
@@ -31,8 +30,6 @@ class RijndaelTest {
 
     @Test
     void decrypt() throws Exception {
-        final byte[] key = secureRandom.generateSeed(32);
-
         final Cipher aes = Cipher.getInstance("AES/ECB/NoPadding");
         aes.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"));
 

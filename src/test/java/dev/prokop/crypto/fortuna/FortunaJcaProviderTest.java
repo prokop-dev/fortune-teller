@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,10 @@ class FortunaJcaProviderTest {
 
         final SecureRandom fortuna = SecureRandom.getInstance("Fortuna");
         assertNotNull(fortuna);
+        fortuna.generateSeed(22); // generates 22 random bytes
+
+        final byte[] bytes = new byte[1024];
+        fortuna.nextBytes(bytes); // fills byte array with 1 KiB of random data
     }
 
     @Test

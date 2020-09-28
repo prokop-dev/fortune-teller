@@ -4,10 +4,8 @@ import java.security.SecureRandomSpi;
 
 public final class FortunaJcaSpiImpl extends SecureRandomSpi {
 
-    private final Generator generator = Generator.getInstance();
-
     /**
-     * This will post provided seed  to the entropy pools.
+     * This will post provided seed to the entropy pools.
      * @param seed
      */
     @Override
@@ -17,7 +15,7 @@ public final class FortunaJcaSpiImpl extends SecureRandomSpi {
 
     @Override
     protected void engineNextBytes(byte[] bytes) {
-        generator.nextBytes(bytes);
+        Generator.getInstance().nextBytes(bytes);
     }
 
     @Override
