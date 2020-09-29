@@ -15,7 +15,7 @@ public class Pool {
     private final MessageDigest messageDigest;
     private final ReentrantLock lock = new ReentrantLock();
 
-    public Pool() {
+    Pool() {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256", "SUN");
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
@@ -23,7 +23,7 @@ public class Pool {
         }
     }
 
-    public void update(byte[] entropy) {
+    void update(byte[] entropy) {
         lock.lock();
         try {
             messageDigest.update(entropy);
@@ -34,7 +34,7 @@ public class Pool {
         }
     }
 
-    public byte[] entropy() {
+    byte[] entropy() {
         byte[] digest;
 
         lock.lock();

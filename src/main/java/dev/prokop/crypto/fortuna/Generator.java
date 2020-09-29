@@ -11,8 +11,10 @@ public class Generator {
     private final Rijndael rijndael = new Rijndael();
     private final byte[] plainText = new byte[16];
     private final byte[] cipherText = plainText.clone();
-    private int capacity = 0;
-    private long reseedCount = 0; // or 1?
+    private int capacity = 0; // how many random bytes left in cipherTest
+    private long reseedCounter = 0L;
+    private long blocksGenerated = 0L;
+    private long lastTimeReseeded = 0L;
 
     private Generator() {
         try {
@@ -20,14 +22,21 @@ public class Generator {
         } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
             throw new AssertionError("Unable to create SHA-256 digester.", e);
         }
-        reseed();
+
+        while (Accumulator.getInstance().getEventCount() < 32) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException interruptedException) {
+                throw new AssertionError("Generator might not be properly seeded.");
+            }
+        }
     }
 
     static Generator getInstance() {
         return instance;
     }
 
-    protected void nextBytes(byte[] bytes) {
+    void nextBytes(byte[] bytes) {
         int bytesLeft = bytes.length;
         while (bytesLeft > 0) {
             if (capacity == 0) newBlock();
@@ -40,6 +49,11 @@ public class Generator {
     }
 
     private void newBlock() {
+        if ((blocksGenerated++ % (1024L * 1024 / 16)) == 0)
+            reseed(); // reseed every 1MiB
+        if (System.currentTimeMillis() - lastTimeReseeded > 100L)
+            reseed(); // reseed if more than 100 ms from last reseed
+
         incrementCounter();
         rijndael.encrypt(plainText, cipherText);
         capacity = cipherText.length;
@@ -53,16 +67,18 @@ public class Generator {
     private void reseed() {
         long powerOfTwo = 1;
         for (int i = 0; i < 32; i++) {
-            if (reseedCount % powerOfTwo == 0) {
+            if (reseedCounter % powerOfTwo == 0) {
                 messageDigest.update(Pools.getInstance().poolNo(i).entropy());
             }
             powerOfTwo <<= 1;
         }
-        reseedCount++;
 
         final byte[] digest = messageDigest.digest();
         rijndael.makeKey(digest, digest.length * 8, Rijndael.DIR_ENCRYPT);
         messageDigest.update(digest);
+
+        reseedCounter++;
+        lastTimeReseeded = System.currentTimeMillis();
     }
 
 }

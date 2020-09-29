@@ -9,7 +9,6 @@ public final class Pools {
     private final static Pools instance = new Pools();
     private final Pool[] pools = new Pool[32];
     private final AtomicLong eventCounter = new AtomicLong(0L);
-    private final AtomicLong totalEntropyBytes = new AtomicLong(0L);
 
     private Pools() {
         for (int i = 0; i < pools.length; i++) pools[i] = new Pool();
@@ -22,7 +21,6 @@ public final class Pools {
 
     public void distribute(byte[] entropy) {
         pools[((int) eventCounter.getAndIncrement()) % pools.length].update(entropy);
-        totalEntropyBytes.addAndGet(entropy.length);
     }
 
     Pool poolNo(int i) {
@@ -45,7 +43,6 @@ public final class Pools {
     public String toString() {
         return "Pools{" +
                 "eventCounter=" + eventCounter +
-                ", totalEntropyBytes=" + totalEntropyBytes +
                 '}';
     }
 }
