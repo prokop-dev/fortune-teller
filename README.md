@@ -67,4 +67,4 @@ java -cp fortune-teller-1.0.1.jar dev.prokop.crypto.fortuna.DieHarder | rawtoppm
 cat pixmap | pnmtopng > random$(date +%Y%m%d%H%M%S).png
 ```
 
-![Pretty dull, ha!](https://raw.githubusercontent.com/prokop-dev/fortune-teller/dieharder/random20201003134327.png)
+![Pretty dull, ha!](https://raw.githubusercontent.com/prokop-dev/fortune-teller/master/dieharder/random20201003134327.png)
