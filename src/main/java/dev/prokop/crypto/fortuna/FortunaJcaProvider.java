@@ -20,5 +20,7 @@ public final class FortunaJcaProvider extends Provider {
 
     private void setup() {
         put("SecureRandom.Fortuna", "dev.prokop.crypto.fortuna.FortunaJcaSpiImpl");
+        put("SecureRandom.Fortuna ThreadSafe", "true");
     }
+
 }

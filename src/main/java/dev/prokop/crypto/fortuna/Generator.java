@@ -3,10 +3,12 @@ package dev.prokop.crypto.fortuna;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Generator {
 
     private static final Generator instance = new Generator();
+    private final ReentrantLock lock = new ReentrantLock();
     private final MessageDigest messageDigest;
     private final Rijndael rijndael = new Rijndael();
     private final byte[] plainText = new byte[16];
@@ -38,13 +40,20 @@ public class Generator {
 
     void nextBytes(byte[] bytes) {
         int bytesLeft = bytes.length;
-        while (bytesLeft > 0) {
-            if (capacity == 0) newBlock();
-            int chunkSize = bytesLeft > capacity ? capacity : bytesLeft;
-            System.arraycopy(cipherText, cipherText.length - capacity,
-                    bytes, bytes.length - bytesLeft, chunkSize);
-            bytesLeft -= chunkSize;
-            capacity -= chunkSize;
+
+        lock.lock();
+        try {
+            while (bytesLeft > 0) {
+                if (capacity == 0)
+                    newBlock();
+                final int chunkSize = Math.min(bytesLeft, capacity);
+                System.arraycopy(cipherText, cipherText.length - capacity,
+                        bytes, bytes.length - bytesLeft, chunkSize);
+                bytesLeft -= chunkSize;
+                capacity -= chunkSize;
+            }
+        } finally {
+            lock.unlock();
         }
     }
 

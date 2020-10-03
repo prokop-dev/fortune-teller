@@ -17,7 +17,6 @@ public final class Accumulator {
         return thread;
     };
     private final AtomicLong eventCounter = new AtomicLong(0L);
-    private final AtomicLong bytesCounter = new AtomicLong(0L);
 
     public static Accumulator getInstance() {
         return instance;
@@ -35,7 +34,6 @@ public final class Accumulator {
                     if (entropy != null && entropy.length > 0) {
                         Pools.getInstance().distribute(entropy);
                         eventCounter.incrementAndGet();
-                        bytesCounter.addAndGet(entropy.length);
                     }
                 },
                 entropySource.initialDelay(), entropySource.delay(), TimeUnit.MILLISECONDS);
@@ -43,10 +41,6 @@ public final class Accumulator {
 
     public long getEventCount() {
         return eventCounter.get();
-    }
-
-    public long getTotalEntropyBytesCount() {
-        return bytesCounter.get();
     }
 
 }

@@ -11,7 +11,7 @@ Add Maven dependency
 <dependency>
     <groupId>dev.prokop.crypto</groupId>
     <artifactId>fortune-teller</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -33,3 +33,9 @@ fortuna.nextBytes(bytes); // fills byte array with 1 KiB of random data
 ```
 
 That's it.
+
+## Test it on your system:
+
+```shell script
+
+```

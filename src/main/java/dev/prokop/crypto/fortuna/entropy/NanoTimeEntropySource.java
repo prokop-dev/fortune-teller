@@ -21,7 +21,7 @@ public class NanoTimeEntropySource implements EntropySource {
 
     @Override
     public long initialDelay() {
-        return 500L;
+        return 250L;
     }
 
     @Override
